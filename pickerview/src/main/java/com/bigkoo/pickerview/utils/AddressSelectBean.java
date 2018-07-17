@@ -12,7 +12,6 @@ import java.util.List;
  * 修改时间  :
  * 修改备注  :
  */
-
 public class AddressSelectBean implements IPickerViewData {
     private String                  id;
     private String                  name;

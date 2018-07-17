@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
 
 
 android {
@@ -36,6 +35,40 @@ allprojects {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     api project(path: ':wheelview')
+//    api 'com.contrarywind:wheelview:4.0.7'
     implementation 'com.google.code.gson:gson:2.8.1'
-
+}
+apply plugin: 'maven'
+def GROUP = "com.bigkoo"
+def POM_ARTIFACT_ID = "pickerview-fec"
+def VERSION_CODE = "4.1.5"
+def UPLOAD_DESC = "添加时分秒的范围限制,修改联动范围限制逻辑代码,添加fec地址选择支持"
+uploadArchives {
+    doFirst {
+        logger.quiet("---------------------------start upload--------------------------------\t\n")
+        logger.quiet(String.format("groupId = %s\t\nartifactId = %s\t\nversion = %s\t\nuploadDesc = %s\t\n", GROUP, POM_ARTIFACT_ID, VERSION_CODE, UPLOAD_DESC))
+    }
+    doLast {
+        logger.quiet("---------------------------upload finish--------------------------------")
+    }
+    repositories {
+        mavenDeployer {
+            repository(url: 'http://192.168.2.105:8908/repository/other/') {
+                authentication(userName: "void", password: "void")
+            }
+            pom.project {
+                version VERSION_CODE
+                artifactId POM_ARTIFACT_ID
+                groupId GROUP
+                description UPLOAD_DESC
+            }
+        }
+    }
+}
+task androidSourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.sourceFiles
+}
+artifacts {
+    archives androidSourcesJar
 }
