@@ -1,7 +1,5 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.novoda.bintray-release'//添加JCenter插件
-
 
 
 android {
@@ -33,14 +31,6 @@ allprojects {
             links "http://docs.oracle.com/javase/7/docs/api"
         }
     }
-}
-publish {
-    userOrg = 'contrarywind'//bintray.com 用户名/组织名 user/org name
-    groupId = 'com.contrarywind'//JCenter上显示的路径 path
-    artifactId = 'Android-PickerView'//项目名称 project name
-    publishVersion = '4.1.5'//版本号 version code
-    desc = 'this is a pickerview for android'//项目描述 description
-    website = 'https://github.com/Bigkoo/Android-PickerView' //项目网址链接 link
 }
 
 dependencies {

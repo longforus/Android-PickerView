@@ -1,12 +1,11 @@
 package com.bigkoo.pickerview.adapter;
 
-
-import com.contrarywind.adapter.WheelAdapter;
+import com.contrarywind.adapter.IntWheelAdapter;
 
 /**
  * Numeric Wheel adapter.
  */
-public class NumericWheelAdapter implements WheelAdapter {
+public class NumericWheelAdapter implements IntWheelAdapter {
 	
 	private int minValue;
 	private int maxValue;
@@ -43,5 +42,15 @@ public class NumericWheelAdapter implements WheelAdapter {
 			return -1;
 		}
 
+	}
+
+	@Override
+	public int getStart() {
+		return minValue;
+	}
+
+	@Override
+	public int getEnd() {
+		return maxValue;
 	}
 }

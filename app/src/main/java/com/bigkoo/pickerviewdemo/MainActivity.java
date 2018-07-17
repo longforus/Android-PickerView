@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //等数据加载完毕再初始化并显示Picker,以免还未加载完数据就显示,造成APP崩溃。
         getOptionData();
 
-        initTimePicker();
+
         initCustomTimePicker();
         initLunarPicker();
         initOptionPicker();
@@ -90,9 +90,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btn_Time && pvTime != null) {
+        if (v.getId() == R.id.btn_Time ) {
             // pvTime.setDate(Calendar.getInstance());
            /* pvTime.show(); //show timePicker*/
+            initTimePicker();
             pvTime.show(v);//弹出时间选择器，传递参数过去，回调的时候则可以绑定此view
         } else if (v.getId() == R.id.btn_Options && pvOptions != null) {
             pvOptions.show(); //弹出条件选择器
@@ -190,6 +191,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initTimePicker() {//Dialog 模式下，在底部弹出
 
+        Calendar startTime = Calendar.getInstance();
+        startTime.set(Calendar.YEAR,1989);
+        startTime.set(Calendar.MONTH,0);
+        startTime.set(Calendar.DAY_OF_MONTH,30);
+        startTime.set(Calendar.HOUR_OF_DAY,0);
+        startTime.set(Calendar.MINUTE,0);
+        startTime.set(Calendar.SECOND,0);
+        Calendar endTime = Calendar.getInstance();
+        endTime.setTime(new Date());
+
+
         pvTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
@@ -204,8 +216,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Log.i("pvTime", "onTimeSelectChanged");
                     }
                 })
-                .setType(new boolean[]{true, true, true, true, true, true})
+                .setType(new boolean[]{true, true, true, true, true, false})
                 .isDialog(true)
+                .setRangDate(startTime,endTime)
                 .build();
 
         Dialog mDialog = pvTime.getDialog();

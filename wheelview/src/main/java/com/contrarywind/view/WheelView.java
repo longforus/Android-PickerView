@@ -16,7 +16,7 @@ import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-
+import com.contrarywind.adapter.IntWheelAdapter;
 import com.contrarywind.adapter.WheelAdapter;
 import com.contrarywind.interfaces.IPickerViewData;
 import com.contrarywind.listener.LoopViewGestureListener;
@@ -24,7 +24,6 @@ import com.contrarywind.listener.OnItemSelectedListener;
 import com.contrarywind.timer.InertiaTimerTask;
 import com.contrarywind.timer.MessageHandler;
 import com.contrarywind.timer.SmoothScrollTimerTask;
-
 import java.util.Locale;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -324,12 +323,22 @@ public class WheelView extends View {
 
     public final void setAdapter(WheelAdapter adapter) {
         this.adapter = adapter;
+        if (preCurrentIndex>adapter.getItemsCount()){
+            selectedItem = 0;
+            preCurrentIndex = adapter.getItemsCount();
+            change = 0;
+            totalScrollY = 0;
+            initPosition = -1;
+        }
         remeasure();
         invalidate();
     }
 
     public final WheelAdapter getAdapter() {
         return adapter;
+    }
+    public final IntWheelAdapter getIntAdapter() {
+        return ((IntWheelAdapter)adapter);
     }
 
     public final int getCurrentItem() {
