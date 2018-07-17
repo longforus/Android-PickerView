@@ -1,22 +1,15 @@
 package com.bigkoo.pickerviewdemo;
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
-
-import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
-import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
-import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.bigkoo.pickerview.utils.AddressSelectBean;
+import com.bigkoo.pickerview.utils.FecAddressView;
 import com.bigkoo.pickerviewdemo.bean.JsonBean;
-import com.google.gson.Gson;
-
-import org.json.JSONArray;
-
 import java.util.ArrayList;
 
 /**
@@ -37,6 +30,7 @@ public class JsonDataActivity extends AppCompatActivity implements View.OnClickL
     private static final int MSG_LOAD_FAILED = 0x0003;
 
     private boolean isLoaded = false;
+    private FecAddressView mAddressViewUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +51,7 @@ public class JsonDataActivity extends AppCompatActivity implements View.OnClickL
                             @Override
                             public void run() {
                                 // 子线程中解析省市区数据
-                                initJsonData();
+                                //initJsonData();
                             }
                         });
                         thread.start();
@@ -88,11 +82,7 @@ public class JsonDataActivity extends AppCompatActivity implements View.OnClickL
                 mHandler.sendEmptyMessage(MSG_LOAD_DATA);
                 break;
             case R.id.btn_show:
-                if (isLoaded) {
-                    showPickerView();
-                } else {
-                    Toast.makeText(JsonDataActivity.this, "Please waiting until the data is parsed", Toast.LENGTH_SHORT).show();
-                }
+                showPickerView();
                 break;
         }
     }
@@ -100,7 +90,7 @@ public class JsonDataActivity extends AppCompatActivity implements View.OnClickL
 
     private void showPickerView() {// 弹出选择器
 
-        OptionsPickerView pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+      /*  OptionsPickerView pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
                 //返回的分别是三个级别的选中位置
@@ -118,29 +108,40 @@ public class JsonDataActivity extends AppCompatActivity implements View.OnClickL
                 .setContentTextSize(20)
                 .build();
 
-        /*pvOptions.setPicker(options1Items);//一级选择器
-        pvOptions.setPicker(options1Items, options2Items);//二级选择器*/
+        *//*pvOptions.setPicker(options1Items);//一级选择器
+        pvOptions.setPicker(options1Items, options2Items);//二级选择器*//*
         pvOptions.setPicker(options1Items, options2Items, options3Items);//三级选择器
-        pvOptions.show();
+        pvOptions.show();*/
+
+        if (mAddressViewUtils==null) {
+            mAddressViewUtils = FecAddressView.getInstance(this).setSelected("广东", "深圳市", "龙华新区").setSelectListener(new FecAddressView.OnAddressSelectListener() {
+                @Override
+                public void getAddressInfo(AddressSelectBean province, AddressSelectBean city, AddressSelectBean area) {
+                    Toast.makeText(JsonDataActivity.this, province.getName() + city.getName() + area.getName(), Toast.LENGTH_SHORT).show();
+                }
+            }).build();
+        }
+        mAddressViewUtils.show();
+
     }
 
-    private void initJsonData() {//解析数据
+    /*private void initJsonData() {//解析数据
 
-        /**
+        *//**
          * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件
          * 关键逻辑在于循环体
          *
-         * */
+         * *//*
         String JsonData = new GetJsonDataUtil().getJson(this, "province.json");//获取assets目录下的json文件数据
 
         ArrayList<JsonBean> jsonBean = parseData(JsonData);//用Gson 转成实体
 
-        /**
+        *//**
          * 添加省份数据
          *
          * 注意：如果是添加的JavaBean实体，则实体类需要实现 IPickerViewData 接口，
          * PickerView会通过getPickerViewText方法获取字符串显示出来。
-         */
+         *//*
         options1Items = jsonBean;
 
         for (int i = 0; i < jsonBean.size(); i++) {//遍历省份
@@ -162,22 +163,23 @@ public class JsonDataActivity extends AppCompatActivity implements View.OnClickL
                 Province_AreaList.add(City_AreaList);//添加该省所有地区数据
             }
 
-            /**
+            *//**
              * 添加城市数据
-             */
+             *//*
             options2Items.add(CityList);
 
-            /**
+            *//**
              * 添加地区数据
-             */
+             *//*
             options3Items.add(Province_AreaList);
         }
 
         mHandler.sendEmptyMessage(MSG_LOAD_SUCCESS);
 
     }
+*/
 
-
+    /*
     public ArrayList<JsonBean> parseData(String result) {//Gson 解析
         ArrayList<JsonBean> detail = new ArrayList<>();
         try {
@@ -193,6 +195,7 @@ public class JsonDataActivity extends AppCompatActivity implements View.OnClickL
         }
         return detail;
     }
+    */
 
 
     @Override

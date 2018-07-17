@@ -531,6 +531,7 @@ public class WheelTime {
         currentArray[pos] = now;
         int downCount = 0;
         int upCount = 0;
+        //检查前面项目达到上界和下届的数量
         for (int i = 0; i <= pos; i++) {
             if (currentArray[i] == startArray[i]) {
                 downCount++;
@@ -538,8 +539,10 @@ public class WheelTime {
                 upCount++;
             }
         }
+        //如果全部达到边界
         boolean hasDown = downCount == pos + 1;
         boolean hasUp = upCount == pos + 1;
+        //向后扫描后面的item,根据是否达到边界设置边界
         for (int i = pos + 1; i < mSyncBeanList.size(); i++) {
             SyncBean syncBean = mSyncBeanList.get(i);
             if (hasDown) {
@@ -550,9 +553,12 @@ public class WheelTime {
             if (hasUp) {
                 syncBean.end = endArray[i];
             } else {
+                //是日
                 if (i == 2) {
+                    //是二月
                     if (currentArray[1] == 2) {
                         int year_num = currentArray[0];
+                        //是闰年
                         if ((year_num % 4 == 0 && year_num % 100 != 0) || year_num % 400 == 0) {
                             syncBean.end = 29;
                         } else {
@@ -569,6 +575,7 @@ public class WheelTime {
                     syncBean.end = ALLOWENDARRAY[i];
                 }
             }
+            //修正选中项和上下界
             if (currentArray[i] < syncBean.start) {
                 currentArray[i] = syncBean.start;
             } else if (currentArray[i] > syncBean.end) {

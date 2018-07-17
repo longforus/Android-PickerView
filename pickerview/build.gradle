@@ -34,6 +34,8 @@ allprojects {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(path: ':wheelview')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    api project(path: ':wheelview')
+    implementation 'com.google.code.gson:gson:2.8.1'
+
 }

@@ -28,6 +28,10 @@ public class OptionsPickerBuilder {
         mPickerOptions.optionsSelectListener = listener;
     }
 
+    public OptionsPickerBuilder(OptionsPickerBuilder builder) {
+        this.mPickerOptions = builder.mPickerOptions;
+    }
+
     //Option
     public OptionsPickerBuilder setSubmitText(String textContentConfirm) {
         mPickerOptions.textContentConfirm = textContentConfirm;
@@ -240,6 +244,11 @@ public class OptionsPickerBuilder {
      */
     public OptionsPickerBuilder setOptionsSelectChangeListener(OnOptionsSelectChangeListener listener) {
         mPickerOptions.optionsSelectChangeListener = listener;
+        return this;
+    }
+
+    public OptionsPickerBuilder setOnOptionsSelectListener(OnOptionsSelectListener listener) {
+        mPickerOptions.optionsSelectListener = listener;
         return this;
     }
 
